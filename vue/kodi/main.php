@@ -37,7 +37,7 @@
 <?php if (isset($_SESSION["TYPE"]) && $_SESSION["TYPE"] != "Dashboard") { ?>
                         <li>
                             <a href="<?php echo $HOME; ?>index.php/<?php echo $URL[1];?>?last">
-                                <i class="glyphicon glyphicon-th"></i> <span>Dernier Ajout</span> <?php if ($new == 1) { echo '<small class="badge pull-right bg-green">new</small>';} ?>
+                                <i class="glyphicon glyphicon-th"></i> <span>Dernier Ajout</span>
                             </a>
                         </li>
                         <li class="treeview">
@@ -61,9 +61,13 @@
                     <div class="pull-left image">
                         <img src="<?php echo $HOME ?>img/thumbnail-light-300x300.png" class="img-circle" style="cursor:pointer" alt="Kodi Logo" onClick="sidebar()" />
                     </div>
-                    <h1>
-                        <?php echo $URL[1] ?> <i class="glyphicon glyphicon-minus" style="font-size:15px"></i><i class="glyphicon glyphicon-chevron-right" style="font-size:15px"></i> <?php echo $_SESSION["TYPE"]; ?>
-                    </h1>
+                    <div class="pull-left" style="font-size: 20px;">
+                        <?php if ($page_previous > 0) { ?><a href="?page=<?php echo $page_previous?>" > <i class="glyphicon glyphicon-chevron-left" ></i>previous</a><?php } ?>
+                    </div>
+                    
+                    <div class="pull-right" style="font-size: 20px;">
+                        <?php if ($page_next > 0) { ?><a href="?page=<?php echo $page_next?>" >next <i class="glyphicon glyphicon-chevron-right" ></i></a> <?php } ?>
+                    </div>
                 </section>
 
                 <!-- Main content -->
@@ -71,7 +75,7 @@
 <?php
 include_once($View);
 ?>
-		</section><!-- /.content -->
+		        </section><!-- /.content -->
             </aside><!-- /.right-side -->
         </div><!-- ./wrapper -->
 <style type="text/css">

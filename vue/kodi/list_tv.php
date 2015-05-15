@@ -1,9 +1,9 @@
+<center>
 <?php
 foreach ($Raw as $data){
 	$poster = _GetPoster_TV($data["Art"], "posters", 1);
 	if ($cmpt == 0) {
-		echo '<div class="row">
-    <center>';
+		echo "<div class='row'>\n";
 	}
 	$cmpt++;
 ?>
@@ -23,3 +23,4 @@ foreach ($Raw as $data){
 }
 if ($cmpt != 0) { echo "</div>\n"; }
 ?>
+</center>

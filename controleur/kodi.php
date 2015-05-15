@@ -1,23 +1,43 @@
 <?php
 
-// on se connecte à MySQL
-include('modele/kodi_mysql.php');
-$Mysql = new Mysql('192.168.0.16', 'MyVideos90', 'kodi', 'kodi');
-$Mysql->ExecuteSQL("SET character_set_results = 'utf8', character_set_client = 'utf8', character_set_connection = 'utf8', character_set_database = 'utf8', character_set_server = 'utf8'");
-
-$URI = $HOME.'index.php'.$_SERVER['PATH_INFO']."/ID/";
-$SCAN = $HOME.'index.php'.$_SERVER['PATH_INFO']."/rescan";
-
-$config = array('host' => '192.168.0.16', 
-            'port' => '8080', 
-            'user' => 'kodi', 
-            'pass' => 'kodi');
-
-if (isset($URL[2]) && $URL[2] == "rescan") {
-	$xbmc = new xbmcJson($config);
-    $xbmc->VideoLibrary->Scan('{ "directory": "/nfs/anime/" }');
+if (!isset($_SESSION["TYPE"]) || ($_SESSION["TYPE"] != "movieview" && $_SESSION["TYPE"] != "tvshowview")) {
+    $_SESSION["TYPE"] = "tvshowview";
 }
 
+if (isset($_GET["type"])) {
+    $_SESSION["TYPE"] = $_GET["type"];
+}
+
+$SCAN = "/www/controleur/kodi.php";
+
+if (!isset($bdd)) {
+	include_once('sgbd.php');
+}
+
+$config = _GetConfig($bdd);
+
+if (isset($_POST['directory'])) {
+	include('../modele/xbmc.php');
+	$directory = $_POST['directory'];
+	echo "Lancement d'un scan du directory «".$directory."» ...";
+	$xbmc = new xbmcJson($config);
+    $xbmc->VideoLibrary->Scan('{ "directory": "'.$directory.'" }');
+    exit;
+}
+
+// on se connecte à MySQL
+include('modele/kodi_mysql.php');
+$Mysql = new Mysql($config["host_bdd"], $config["database_bdd"], $config["user_bdd"], $config["mdp_bdd"]);
+$Mysql->ExecuteSQL("SET character_set_results = 'utf8', character_set_client = 'utf8', character_set_connection = 'utf8', character_set_database = 'utf8', character_set_server = 'utf8'");
+
+
+$slct_genre = "";
+$Resulats = $Mysql->GetGenre() or die('Erreur SQL !<br>');
+foreach ($Resulats as $Valeur){
+    $slct_genre .= '<li><a href="'.$HOME.'index.php/'.$URL[1].'?Genres[]='.$Valeur['GENRE'].'">
+    		<i class="glyphicon glyphicon-menu-right"></i> '.$Valeur['GENRE'].' <small class="badge pull-right bg-blue">'.$Valeur['NB'].'</small>
+    		</a></li>';
+}
 
 if (isset($_GET["Dashboard"])) {
 	$_SESSION["TYPE"] = "Dashboard";
@@ -33,6 +53,24 @@ if (isset($_GET["Dashboard"])) {
 (select  count(*) from `movie` left join `files` on (`files`.`idFile` = `movie`.`idFile`)  where `files`.`dateAdded` > '2015-02-01') as Movie_last";
     $count = $Mysql->TabResSQL($req);
     
+    $sql = "SELECT idPath AS ID,
+	               strPath,
+	               strContent,
+	               (SELECT COUNT(*) FROM path where idParentPath = ID) as path,
+	               (select count(*) from files INNER JOIN path ON files.idPath = path.idPath where idParentPath = ID OR path.idPath = ID ) as files
+	           FROM `path` where strContent is not null and idParentPath is null";	
+
+	$Resulats = $Mysql->TabResSQL($sql);
+	$slct_dir = "";
+	foreach ($Resulats as $Valeur){
+		$slct_dir .= '<tr>
+			<td>'.$Valeur["strPath"].'</td>
+			<td>'.$Valeur["strContent"].'</td>
+			<td>'.$Valeur["path"].'</td>
+			<td>'.$Valeur["files"].'</td>
+			<td><i onClick="send_refresh(\''.$Valeur["strPath"].'\')" class="glyphicon glyphicon-refresh" style="cursor:pointer"></i></td>
+		</tr>';
+	}
     
     $View = 'vue/kodi/Dashboard.php';
 	include_once('vue/kodi/main.php');
@@ -40,22 +78,7 @@ if (isset($_GET["Dashboard"])) {
 	exit;    
 }
 
-$slct_genre = "";
-$Resulats = $Mysql->GetGenre() or die('Erreur SQL !<br>');
-foreach ($Resulats as $Valeur){
-    $slct_genre .= '<li><a href="?Genres[]='.$Valeur['GENRE'].'">
-    		<i class="glyphicon glyphicon-menu-right"></i> '.$Valeur['GENRE'].' <small class="badge pull-right bg-blue">'.$Valeur['NB'].'</small>
-    		</a></li>';
-}
-
-if (!isset($_SESSION["TYPE"]) || ($_SESSION["TYPE"] != "movieview" && $_SESSION["TYPE"] != "tvshowview")) {
-    $_SESSION["TYPE"] = "tvshowview";
-}
-
-if (isset($_GET["type"])) {
-    $_SESSION["TYPE"] = $_GET["type"];
-}
-
+$URI = $HOME.'index.php'.$_SERVER['PATH_INFO']."/ID/";
 if($_SESSION["TYPE"] == "movieview") {
     $art = "c08";
     $idTable = "idMovie";
@@ -96,6 +119,20 @@ if (isset($URL[3]) && is_numeric($URL[3])) {
 	exit;
 
 } else {
+    if (!isset($_GET['page'])) {
+        $page = 1;
+    } else {
+        $page = $_GET['page'];
+    }
+    
+    $page_previous = $page - 1;
+    $page_next = $page + 1;
+    
+    $range = 18;
+	
+	$end  = $range * $page;
+	$start = $end - $range;
+    
 	$sql = 'SELECT '.$idTable.' AS id, c00 AS Titre, '.$art.' AS Art FROM '.$_SESSION["TYPE"];
 	
 	$filtre = array();
@@ -116,7 +153,11 @@ if (isset($URL[3]) && is_numeric($URL[3])) {
 	if (!empty($filtre)) {
 		$sql .= " WHERE ".implode(' AND ', $filtre );
 	}
-	$sql .= " ORDER BY c00 LIMIT 54";
+	if (isset($_GET["last"])) {
+		$sql .= " ORDER BY dateAdded DESC LIMIT ".$range." OFFSET ".$start;
+	} else {
+		$sql .= " ORDER BY c00 LIMIT ".$range." OFFSET ".$start;
+	}
 	
 	$Raw = $Mysql->TabResSQL($sql);
 	
@@ -228,4 +269,14 @@ function _getInfo($tvdb_id) {
 		//print_r($val);
 	}
 	return count($matches[1]);
+}
+
+
+function _GetConfig($bdd) {
+
+	$res = $bdd->query("SELECT * from kodi_config");
+	while($kodi = $res->fetchArray(SQLITE3_ASSOC)) {
+		$config = $kodi;
+	}
+	return $config;
 }

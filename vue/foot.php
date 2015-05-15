@@ -43,21 +43,13 @@ $(document).ready(function(){
             $(".right-side").addClass("strech");
         }
     }
-/*  $(document).ready(function(){
-     function fix_height_body(){
-       var h = $("body").height();
-       if (h > 1600 ) {
-            $("body").attr("style", "background-size:auto");
-       }
-     }
-     $(window).resize(function(){ fix_height_body(); }).resize();
-  });*/
+
 </script>
 
 <!-- JS Console && Pyload-->
 <?php
 if (isset($URL[1]) && (preg_match('/Console/i',$URL[1]) || preg_match('/nas/i',$URL[1]) || preg_match('/pyload/i',$URL[1]) ||
-                       preg_match('/Codiad/i',$URL[1]) || preg_match('/owncloud/i',$URL[1]) || preg_match('/MyAdmin/i',$URL[1])  )) {
+                       preg_match('/Codiad/i',$URL[1]) || preg_match('/owncloud/i',$URL[1]) || preg_match('/APC/i',$URL[1]) || preg_match('/MyAdmin/i',$URL[1])  )) {
 ?>
 <script>
   $(document).ready(function(){
@@ -96,6 +88,12 @@ if (isset($URL[1]) && (preg_match('/Console/i',$URL[1]) || preg_match('/nas/i',$
 	}
 ?>
 </script>
+<?php
+if (isset($MODAL)) {
+    include_once('modele/modal.php');
+    CreateModal ($MODAL[0], $MODAL[1], $MODAL[2]);
+}
+?>
 <!--
 <script src="<?php echo $HOME; ?>js/app.js" type="text/javascript"></script>
 <script src="<?php echo $HOME; ?>js/demo.js" type="text/javascript"></script>
