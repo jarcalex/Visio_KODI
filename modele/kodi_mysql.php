@@ -87,7 +87,7 @@ FROM genre, genrelinktvshow
 WHERE genre.idGenre = genrelinktvshow.idGenre
 GROUP BY genre.idGenre
 ORDER BY nb DESC
-LIMIT 8',$this->Lien);
+LIMIT 12',$this->Lien);
       $TabResultat=array();
       if (!$Ressource and $this->Debogue) throw new MySQLExeption('Erreur de requête SQL!!!');
       while ($Ligne = mysql_fetch_assoc($Ressource))
@@ -123,6 +123,20 @@ LIMIT 8',$this->Lien);
       mysql_free_result($Ressource);
       $this->NbRequetes++;
       return $TabResultat;
+    }
+  }
+  /**
+  * Gestion des erreurs avec les exeptions
+  */
+  class MySQLExeption  extends Exception
+  {
+    public function __construct($Msg) {
+      parent :: __construct($Msg);
+    }
+    public function RetourneErreur() {
+      $msg  = '<div style="margin-left:250px; width:400px"><strong>' . $this->getMessage() . '</strong>';
+      $msg .= ' Ligne : ' . $this->getLine() . '</div>';
+      return $msg;
     }
   }
 ?>

@@ -1,11 +1,5 @@
-<script type="text/javascript">
-    function submitsrvc(e) {
-        document.getElementById("rescan").value = e;
-        window.document.srvc.submit();
-    }
-</script>
-<form name="srvc" method="post">
-    <input type="hidden" name="rescan" id="rescan" value="">
+<form name="srvc" id="srvc" class="srvc" method='POST'>
+    <input type="hidden" name="action" id="action" value="">
     <br />
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
@@ -19,7 +13,7 @@
                     </div>
                     <div style='text-align:center'>
                         <div class="btn-group">
-                            <button type="button" class="btn btn-info" onclick="submitsrvc('rescan')"><span class="glyphicon glyphicon-refresh"></span> RESCAN</button>
+                            <button type="button" name="rescan" id="rescan" class="btn btn-info" ><span class="glyphicon glyphicon-refresh"></span> RESCAN</button>
                         </div>
                     </div>
                     <br />
@@ -29,3 +23,5 @@
         </div><!-- End col-sm-6 col-md-6 -->
     </div><!-- End row -->
 </from>
+
+<div class="alert alert-info hidden" id="msg"></div>

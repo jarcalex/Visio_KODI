@@ -67,7 +67,7 @@ if(isset($_POST["cmd-text"]) && isset($_POST["host-text"]) && isset($_POST["plan
     } else {
         $ret = shell_exec('ssh xbian@darksurt "(echo \"'.$contenu.'\") 2>&1 | crontab - "');
     }
-    echo "TEST";
+    echo "OK - Cron modifié";
     exit;
 }
 

@@ -86,6 +86,7 @@ function kConv($kSize){
 function heat() {
     $result = array();
     $arg1 = func_get_arg(0);
+    $arg1 = str_replace("Temperature: ","",$arg1);
     $result['degrees'] = round($arg1);
     $MaxTemp = 85;
     

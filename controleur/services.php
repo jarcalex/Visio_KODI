@@ -7,7 +7,7 @@ if (isset($_GET['srv'])) {
     while($tt = $res->fetchArray(SQLITE3_ASSOC)) {
 	$output = array();
         exec($tt["cmd_status"], $output, $return_var);
-        if(isset($output[0]) && $output[0] >= "1") {
+        if(isset($output[0]) && $output[0] == "1") {
         	$status = "ok' style='color: #5cb85c'";
         } else {
             $status = "warning-sign' style='color: #d9534f'";
@@ -38,18 +38,35 @@ if (isset($_POST['serviceID']) and isset($_POST['etat'])) {
         $detail = array();
         #echo "Cmd: ".$tt["cmd"]." ".$_POST['etat']."<br />";
         exec($tt["cmd"]." ".$_POST['etat'], $detail, $return_var);
-	$result  =  join(",",$detail);
+	    $result  =  join(",",$detail);
         echo "<br /><div class='row'>
 <div class='col-md-6 col-md-offset-3'><div class='alert alert-info' id='msg'>Code retour: ".$return_var." - ".$result."</div></div>
 </div>";
     }
 }
 
-
-
 $array_SVC = array();
 $res = $bdd->query("SELECT * from service");
 while($tt = $res->fetchArray(SQLITE3_ASSOC)) {
 	array_push($array_SVC, $tt);
 }
+
+# Création de l'ajax de chargement des status
+$JS = "<script type='text/javascript'>";
+foreach( $array_SVC as $cle=>$arrayValue ) {
+    $namecourt = str_replace(" ", "_", $arrayValue['Service name']);
+    $JS .= "esm.get".$namecourt.$arrayValue['id']." = function() {\n";
+    $JS .= '$( "#'.$namecourt.$arrayValue['id'].'" ).load( "'.$HOME.'controleur/services.php?srv='.$arrayValue['id'].'" );';
+    $JS .= "\n}\n";
+}
+$JS .= "\nesm.getAll = function() {\n";
+$res = $bdd->query("SELECT * from service");
+while($tt = $res->fetchArray(SQLITE3_ASSOC)) {
+    $namecourt = str_replace(" ", "_", $tt['Service name']);
+    $JS .= "   esm.get".$namecourt.$tt['id']."();\n";
+}
+$JS .= "}\n";
+$JS .= "esm.getAll();\n";
+$JS .= "</script>\n";
+
 $inc = 0;

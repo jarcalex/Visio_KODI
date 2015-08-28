@@ -34,6 +34,12 @@
                                 <i class="glyphicon glyphicon-dashboard"></i> <span>Dashboard</span>
                             </a>
                         </li>
+                        <li>
+                            <a href="<?php echo $HOME; ?>index.php/<?php echo $URL[1];?>?SerieStat">
+                                <i class="glyphicon glyphicon-stats"></i> <span>Stats des Series</span>
+                            </a>
+                        </li>
+
 <?php if (isset($_SESSION["TYPE"]) && $_SESSION["TYPE"] != "Dashboard") { ?>
                         <li>
                             <a href="<?php echo $HOME; ?>index.php/<?php echo $URL[1];?>?last">
@@ -57,21 +63,21 @@
             <!-- Right side column. Contains the navbar and content of the page -->
             <aside class="right-side">
                 <!-- Content Header (Page header) -->
-                <section class="content-header">
-                    <div class="pull-left image">
+                <section class="content-header"  style="height:36px">
+                    <div class="pull-left image" style="margin-top:-10px">
                         <img src="<?php echo $HOME ?>img/thumbnail-light-300x300.png" class="img-circle" style="cursor:pointer" alt="Kodi Logo" onClick="sidebar()" />
                     </div>
-                    <div class="pull-left" style="font-size: 20px;">
-                        <?php if ($page_previous > 0) { ?><a href="?page=<?php echo $page_previous?>" > <i class="glyphicon glyphicon-chevron-left" ></i>previous</a><?php } ?>
+                    <div class="pull-left" style="font-size: 20px; margin-top:-5px">
+                        <?php if (isset($page_previous) && $page_previous > 0) { ?><a href="?<?php echo $Nav_url."page=".$page_previous?>" > <i class="glyphicon glyphicon-chevron-left" ></i>previous</a><?php } ?>
                     </div>
                     
-                    <div class="pull-right" style="font-size: 20px;">
-                        <?php if ($page_next > 0) { ?><a href="?page=<?php echo $page_next?>" >next <i class="glyphicon glyphicon-chevron-right" ></i></a> <?php } ?>
+                    <div class="pull-right" style="font-size: 20px; margin-top:-5px">
+                        <?php if (isset($page_next) && $page_next > 0) { ?><a href="?<?php echo $Nav_url."page=".$page_next?>" >next <i class="glyphicon glyphicon-chevron-right" ></i></a> <?php } ?>
                     </div>
                 </section>
 
                 <!-- Main content -->
-                <section class="content">
+                <section class="content" style="padding-top: 15px; padding-bottom: 15px;">
 <?php
 include_once($View);
 ?>

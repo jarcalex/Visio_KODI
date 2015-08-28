@@ -51,7 +51,7 @@ function listeDossier($dossier,$filtre) {
     		$i = 1;
     		foreach($files as $file) {
                 $page = $dossier."/".$file;
-                if ($time && filemtime($page) < $time) {
+                if (defined($time) && filemtime($page) < $time) {
                     continue;
                 }
 

@@ -493,7 +493,7 @@ rrdFlot.prototype.bindFlotGraph = function(flot_obj) {
     yaxis: { autoscaleMargin: 0.20},
     selection: { mode: "x" },
     tooltip: true,
-    tooltipOpts: { content: "<h4>%s</h4> Value: %y.3" },
+    tooltipOpts: { content: "<h4>%s</h4> Date: %x <br />Value: %y.3" },
     grid: { hoverable: true },
   };
 

@@ -24,16 +24,6 @@
                     <!-- /.search form -->
                     <!-- sidebar menu: : style can be found in sidebar.less -->
                     <ul class="sidebar-menu">
-                        <li class="active">
-                            <a href="index.html">
-                                <i class="glyphicon glyphicon-dashboard"></i> <span>Dashboard</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="pages/widgets.html">
-                                <i class="glyphicon glyphicon-th"></i> <span>Widgets</span> <small class="badge pull-right bg-green">new</small>
-                            </a>
-                        </li>
                         <li class="treeview">
                             <a href="#">
                                 <i class="glyphicon glyphicon-edit"></i> <span>Genre</span>
@@ -42,12 +32,6 @@
                             <ul class="treeview-menu">
 <?php echo $slct_genre ?>
                             </ul>
-                        </li>
-                        <li>
-                            <a href="pages/mailbox.html">
-                                <i class="glyphicon glyphicon-envelope"></i> <span>Mailbox</span>
-                                <small class="badge pull-right bg-yellow">12</small>
-                            </a>
                         </li>
                     </ul>
                 </section>
@@ -61,9 +45,10 @@
                     <div class="pull-left image">
                         <img src="<?php echo $HOME ?>img/thumbnail-light-300x300.png" class="img-circle" style="cursor:pointer" alt="Kodi Logo" onClick="sidebar()" />
                     </div>
-                    <h1>
-                        <?php echo $URL[1] ?> <i class="glyphicon glyphicon-minus" style="font-size:15px"></i><i class="glyphicon glyphicon-chevron-right" style="font-size:15px"></i> <?php echo $_SESSION["TYPE"]; ?>
-                    </h1>
+                    <div class="pull-left" style="font-size: 20px;">
+						<?php echo $URL[1] ?> <i class="glyphicon glyphicon-minus" style="font-size:15px"></i><i class="glyphicon glyphicon-chevron-right" style="font-size:15px"></i> <?php echo $_SESSION["TYPE"]; ?>
+                    </div>
+                   
                 </section>
 
                 <!-- Main content -->

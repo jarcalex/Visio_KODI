@@ -10,7 +10,7 @@ function CreateModal ($content, $buttondata, $url) {
         <h4 class="modal-title" id="exampleModalLabel">New message</h4>
       </div>
       <div class="modal-body">
-        <div class="alert alert-info hidden" id="msg"> </div>
+        <div class="alert alert-info hidden" id="msg_modal"> </div>
         <form class="ModalForm" id="ModalForm" name="ModalForm" method="post">
         '.$content.'
         </form>
@@ -45,16 +45,17 @@ $(document).ready(function () {
 			url: ${url}, // 
 			data: form.serialize(),
 			success: function(msg){
-				$('#msg').html(msg)
-				//$('#msg.hidden').css('visibility','visible').hide().fadeIn().removeClass('hidden');	
+				$('#msg_modal').html(msg)
+				//$('#msg_modal.hidden').css('visibility','visible').hide().fadeIn().removeClass('hidden');	
 			},
 			error: function(){
 				alert('failure');
 			}
 		});
-		$('#msg.hidden').css('visibility','visible').hide().fadeIn().removeClass('hidden');
-        $('#msg').delay(400).show(500);
-        $('#msg').delay(400).hide(500);
+		
+        $('#msg_modal').delay(2400).show(500);
+        $('#msg_modal.hidden').css('visibility','visible').hide().fadeIn().removeClass('hidden');
+        $('#msg_modal').delay(3600).hide(500);
 	});
 });
 </script>";

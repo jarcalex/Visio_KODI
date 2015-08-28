@@ -1,4 +1,4 @@
-<center><h1 style='color:#014051'>Etat de la Freebox</h1></center>
+<center><h1 style='color:#d8e0de'>Etat Freebox</h1></center>
 
 <?php
 $nb = 0;
@@ -12,7 +12,7 @@ foreach ($array as &$value) {
 	
 	$nb++;
 	
-	echo '<div class="panel panel-primary" >
+	echo '<div class="panel panel-info" >
 	  <div class="panel-heading"><strong>'.$titre[0].'</strong></div>
 	    <div class="panel-body" style="font-family:\'DejaVu Sans Mono\',\'Everson Mono\',FreeMono,\'Andale Mono\',monospace">';
 	$contenu = explode("\n", $value);

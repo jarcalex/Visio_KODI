@@ -49,7 +49,7 @@ $(document).ready(function(){
 <!-- JS Console && Pyload-->
 <?php
 if (isset($URL[1]) && (preg_match('/Console/i',$URL[1]) || preg_match('/nas/i',$URL[1]) || preg_match('/pyload/i',$URL[1]) ||
-                       preg_match('/Codiad/i',$URL[1]) || preg_match('/owncloud/i',$URL[1]) || preg_match('/APC/i',$URL[1]) || preg_match('/MyAdmin/i',$URL[1])  )) {
+                       preg_match('/Codiad/i',$URL[1]) || preg_match('/owncloud/i',$URL[1]) || preg_match('/APC/i',$URL[1]) || preg_match('/SQLAdmin/i',$URL[1])  )) {
 ?>
 <script>
   $(document).ready(function(){
@@ -68,35 +68,15 @@ if (isset($URL[1]) && (preg_match('/Console/i',$URL[1]) || preg_match('/nas/i',$
 <?php
 } 
 ?>
-<script type="text/javascript">
-<?php
-	if (isset($URL[1]) && (preg_match('/Service/i',$URL[1]))) {
-		foreach( $array_SVC as $cle=>$arrayValue ) {
-		    $namecourt = str_replace(" ", "_", $arrayValue['Service name']);
-	        echo "esm.get".$namecourt.$arrayValue['id']." = function() {\n";
-	        echo '$( "#'.$namecourt.$arrayValue['id'].'" ).load( "'.$HOME.'controleur/services.php?srv='.$arrayValue['id'].'" );';
-	        echo "\n}\n";
-	    }
-	    echo "\nesm.getAll = function() {\n";
-	    $res = $bdd->query("SELECT * from service");
-		while($tt = $res->fetchArray(SQLITE3_ASSOC)) {
-	        $namecourt = str_replace(" ", "_", $tt['Service name']);
-	        echo "   esm.get".$namecourt.$tt['id']."();\n";
-	    }
-	    echo "}\n";
-	    echo "esm.getAll();\n";
-	}
-?>
-</script>
+
+<?php if (isset($JS)){ echo $JS; } ?>
+
 <?php
 if (isset($MODAL)) {
     include_once('modele/modal.php');
     CreateModal ($MODAL[0], $MODAL[1], $MODAL[2]);
 }
 ?>
-<!--
-<script src="<?php echo $HOME; ?>js/app.js" type="text/javascript"></script>
-<script src="<?php echo $HOME; ?>js/demo.js" type="text/javascript"></script>
--->
+
 </body>
 </html>
