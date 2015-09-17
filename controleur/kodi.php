@@ -137,6 +137,20 @@ if (isset($_GET["Dashboard"])) {
 		</tr>';
 	}
     
+    $sql = "SELECT count(*) AS NB, strVideoCodec  FROM `streamdetails` where strVideoCodec is not null group by strVideoCodec";
+    $Resulats = array();
+	if ($Mysql) {
+		$Resulats = $Mysql->TabResSQL($sql);
+	}
+	$codec = "";
+	foreach ($Resulats as $Valeur){
+		$codec .= '<tr>
+			<td>'.$Valeur["strVideoCodec"].'</td>
+			<td>'.$Valeur["NB"].'</td>
+		</tr>';
+	}
+    
+    
     $View = 'vue/kodi/Dashboard.php';
 	include_once('vue/kodi/main.php');
 	include_once('vue/foot.php');

@@ -128,12 +128,12 @@ function send_clean() {
         </div>
     </div>
 </div>
-<!--
+
 <div class="row">
     <div class="col-md-12">
         <div class="box box-info">
             <div class="box-header with-border">
-                <h3 class="box-title">KODI Status</h3>
+                <h3 class="box-title"> Stat Video Codec </h3>
                 <div class="box-tools pull-right">
                     <button class="btn btn-box-tool" data-widget="collapse"> <i class="glyphicon glyphicon-minus"></i> </button>
                 </div>
@@ -142,20 +142,10 @@ function send_clean() {
             	<div class="table-responsive">
                     <table class="table no-margin">
                         <tr>
-                            <th>Element</th>
-                            <th>Host</th>
-                            <th>Status</th>
-                            <th>Action</th>
+                            <th>Codec</th>
+                            <th>Nombre</th>
                         </tr>
-						<tr>
-							<td>KODI</td>
-						</tr>
-						<tr>
-							<td>BDD</td>
-						</tr>
-						<tr>
-							<td>Montage NFS</td>
-						</tr>
+						<?php echo $codec; ?>
                     </table>
                 </div>
             </div>
@@ -163,5 +153,4 @@ function send_clean() {
     </div>
 </div>
 
--->
 
