@@ -1,8 +1,11 @@
-
 <div class="row">
+  <div class="alert alert-info hidden" id="msg"></div>
 	<div class="col-md-2">
+    <center>
         <img src="<?php echo  $poster[0]; ?>" class="img-responsive img-thumbnail" alt="" style="width:280px;">
         <br /><br />
+        <p style="font-size: 20px; padding-left: 10px; cursor:pointer;" onClick="send_play(<?php echo $URL[3]; ?>)" > <i class="glyphicon glyphicon-play"> </i> Play </p>
+      </center>
     </div>
     
     <div class="col-md-8">
@@ -57,3 +60,21 @@
         </center><hr />
    	</div>
 </div>
+
+
+<script language="javascript" type="text/javascript">
+function send_play(ID) {
+    $.ajax({
+        type: "POST",
+        url: "<?php echo $ACTION; ?>?type=movie_view", //
+        data: 'play=' + ID,
+        success: function(msg){
+                $("#msg").html(msg)
+                $('#msg.hidden').css('visibility','visible').hide().fadeIn().removeClass('hidden');
+        },
+        error: function(){
+                alert("failure");
+        }
+    });
+}
+</script>

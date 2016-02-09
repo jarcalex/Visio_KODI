@@ -1,4 +1,5 @@
 <center>
+  <div class="alert alert-info hidden" id="msg"></div>
   <br />
   <img src="<?php echo  $banner[0]; ?>" class="img-responsive img-thumbnail" alt="" >
   <br /> <br />
@@ -17,10 +18,11 @@
           <div class="progress">
             <div style="width: <?php echo $progress_ep; ?>%" class="progress-bar"><b><?php echo $Nb_ep_have."/".$Nb_ep_total; ?></b></div>
           </div>
-          
+<?php if ($Nb_sp_have != 0 && $Nb_sp_total != 0) { ?>          
           <div class="progress">
             <div style="width: <?php echo $progress_sp; ?>%" class="progress-bar"><b><?php echo $Nb_sp_have."/".$Nb_sp_total; ?></b></div>
           </div>
+<?php } ?>
         </p>
         <p><b>Synopsis: </b><?php echo $Raw["plot"]; ?></p>
         <p>
@@ -64,28 +66,24 @@
         <center><?php
         $i=0;
         foreach ($fanart as $art) {
-            echo '<img src="'.$art.'" class="img-responsive img-thumbnail" alt="" style="width:180px;" id="image-'.$i.'">';
+            echo '<img src="'.$art.'" onerror="onImgErrorLast(this)" class="img-responsive img-thumbnail" alt="" style="width:180px;" id="image-'.$i.'">';
             $i++;
         }
         ?>
         </center><hr />
-        <?php if ($detail != "") {?>
+        <?php if ( $haveEP == 1 ) {?>
         <center><h2 class="sub-header">Liste des Episodes</h2></center>
-        <div class="table-responsive" style="border-radius:8px; background-color:#81BEF7;font-weight:bold">
-          <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Titre</th>
-              <th>Durée</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php echo $detail; ?>
-          </tbody>
-          </table>
-   		</div>
+        
+        <div class="nav-tabs-custom">
+          <ul class="nav nav-tabs">
+        		<?php echo $ListeSaison; ?>
+          </ul>
+          <div class="tab-content">
+            <?php echo $Episodedetail; ?>
+          </div>
+        </div>
+
+
    	</div>
 </div>
    		<?php } ?>
@@ -107,3 +105,45 @@
     </div>
   </div>
 </div>
+
+<script language="javascript" type="text/javascript">
+function send_play(ID) {
+    $.ajax({
+        type: "POST",
+        url: "<?php echo $ACTION; ?>?type=tvshow_view", //
+        data: 'play=' + ID,
+        success: function(msg){
+                $("#msg").html(msg)
+                $('#msg.hidden').css('visibility','visible').hide().fadeIn().removeClass('hidden');
+        },
+        error: function(){
+                alert("failure");
+        }
+    });
+}
+
+function onImgError(source, url){
+    source.onerror = null;
+    source.src = url;
+    var oImg=new Image;
+    oImg.src = url
+
+    if(oImg.complete){
+      console.info("Utilisation de l'image cache Complete");
+      source.src = oImg.src;
+      
+    } else {
+      source.onerror = onImgErrorLast(source);
+  }
+}
+
+function onImgErrorLast(source){
+  console.info("Mise en place de l'image d'erreur");
+  source.style = "display: none";
+  source.src = "/img/out.png";
+}
+
+</script>
+
+
+

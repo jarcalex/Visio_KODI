@@ -82,17 +82,18 @@
     public function GetGenre()
     {
       $i = 0;
-      $Ressource = mysql_query('SELECT genre.idGenre, genre.strGenre, count(*) as nb
-FROM genre, genrelinktvshow
-WHERE genre.idGenre = genrelinktvshow.idGenre
-GROUP BY genre.idGenre
+      $Ressource = mysql_query('
+SELECT genre.genre_id, genre.name, count(*) as nb
+FROM genre, genre_link
+WHERE genre.genre_id = genre_link.genre_id 
+GROUP BY genre.genre_id 
 ORDER BY nb DESC
 LIMIT 12',$this->Lien);
       $TabResultat=array();
       if (!$Ressource and $this->Debogue) throw new MySQLExeption('Erreur de requête SQL!!!');
       while ($Ligne = mysql_fetch_assoc($Ressource))
       {
-        $TabResultat[$i]["GENRE"] = $Ligne["strGenre"];
+        $TabResultat[$i]["GENRE"] = $Ligne["name"];
         $TabResultat[$i]["NB"] = $Ligne["nb"];
         $i++;
       }
@@ -101,7 +102,7 @@ LIMIT 12',$this->Lien);
       return $TabResultat;
         
     }
-    public function GetNew($idTable= 'idShow', $art = 'c06', $table = 'tvshowview') {
+    public function GetNew($idTable= 'idShow', $art = 'c06', $table = 'tvshow_view') {
         $i = 0;
         $Ressource = mysql_query('SELECT '.$idTable.' AS id, c00 AS Titre, '.$art.' AS Art, dateAdded  FROM '.$table.' ORDER BY dateAdded desc LIMIT 12');
         if (!$Ressource and $this->Debogue) throw new MySQLExeption('Erreur de requête SQL!!!');

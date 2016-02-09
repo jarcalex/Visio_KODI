@@ -32,7 +32,7 @@
 function send_refresh(val) {
     $.ajax({
     	type: "POST",
-    	url: "<?php echo $SCAN; ?>", // 
+    	url: "<?php echo $ACTION; ?>", // 
     	data: 'directory=' + val,
     	success: function(msg){
     		$("#msg").html(msg)
@@ -47,7 +47,8 @@ function send_refresh(val) {
 function send_clean() {
     $.ajax({
     	type: "POST",
-    	url: "<?php echo $CLEAN; ?>", // 
+    	url: "<?php echo $ACTION; ?>", // 
+    	data: 'CLEANUP=1',
     	success: function(msg){
     		$("#msg").html(msg)
     		$('#msg.hidden').css('visibility','visible').hide().fadeIn().removeClass('hidden');	
@@ -72,7 +73,7 @@ function send_clean() {
         	<div class="box-body">
             	<div class="row">
                 	<div class="col-md-6">
-                	    <div class="info-box bg-green">
+                	    <div class="info-box" style="background-color: #00a65a;color:#f9f9f9">
                 	        <span class="info-box-icon"><i class="glyphicon glyphicon-film"></i></span>
                             <div class="info-box-content">
                               <span class="info-box-text">Nombre de Movie</span>
@@ -85,7 +86,7 @@ function send_clean() {
                               </span>
                             </div><!-- /.info-box-content -->
                 	    </div>
-                        <div class="info-box bg-red">
+                        <div class="info-box" style="background-color: #f56954;color:#f9f9f9">
                             <span class="info-box-icon"><i class="glyphicon glyphicon-blackboard" style="-webkit-transform:  rotate(180deg);-moz-transform:  rotate(180deg);-o-transform:  rotate(180deg);writing-mode: lr-tb;"></i></span>
                             <div class="info-box-content">
                               <span class="info-box-text">Nombre de TVShow</span>
@@ -98,7 +99,7 @@ function send_clean() {
                         </div>
                     </div>        
                     <div class="col-md-6">
-                        <div class="info-box bg-blue">
+                        <div class="info-box" style="background-color: #0073b7;color:#f9f9f9">
                             <span class="info-box-icon"><i class="glyphicon glyphicon-file"></i></span>
                             <div class="info-box-content">
                               <span class="info-box-text">Nombre de Fichier</span>
@@ -109,7 +110,7 @@ function send_clean() {
                               </span>
                             </div><!-- /.info-box-content -->
                         </div>
-                        <div class="info-box bg-yellow">
+                        <div class="info-box" style="background-color: #f39c12;color:#f9f9f9">
                             <span class="info-box-icon"><i class="glyphicon glyphicon-th-list"></i></span>
                             <div class="info-box-content">
                               <span class="info-box-text">Nombre d'épisode</span>

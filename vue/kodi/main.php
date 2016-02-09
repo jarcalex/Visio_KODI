@@ -5,10 +5,10 @@
                 <section class="sidebar">
                     <!-- Sidebar user panel -->
                     <div class="user-panel">
-                        <a class="btn btn-app" <?php if(isset($_SESSION["TYPE"]) && $_SESSION["TYPE"] == "movieview") { echo 'style="outline: 0 none; box-shadow: 0 3px 5px rgba(0, 0, 0, 0.125) inset"';} else { echo 'href="?type=movieview"';} ?>>
+                        <a class="btn btn-app" <?php if(isset($_SESSION["TYPE"]) && $_SESSION["TYPE"] == "movie_view") { echo 'style="outline: 0 none; box-shadow: 0 3px 5px rgba(0, 0, 0, 0.125) inset"';} else { echo 'href="?type=movie_view"';} ?>>
                             <i class="glyphicon glyphicon-film" ></i> Movie
                         </a>
-                        <a class="btn btn-app" <?php if(isset($_SESSION["TYPE"]) && $_SESSION["TYPE"] == "tvshowview") { echo 'style="outline: 0 none; box-shadow: 0 3px 5px rgba(0, 0, 0, 0.125) inset"';} else { echo 'href="?type=tvshowview"';} ?>>
+                        <a class="btn btn-app" <?php if(isset($_SESSION["TYPE"]) && $_SESSION["TYPE"] == "tvshow_view") { echo 'style="outline: 0 none; box-shadow: 0 3px 5px rgba(0, 0, 0, 0.125) inset"';} else { echo 'href="?type=tvshow_view"';} ?>>
                             <i class="glyphicon glyphicon-blackboard" style="-webkit-transform:  rotate(180deg);-moz-transform:  rotate(180deg);-o-transform:  rotate(180deg);writing-mode: lr-tb;"></i> Tv Show
                         </a>
                     </div>
@@ -55,6 +55,12 @@
 <?php echo $slct_genre ?>
                             </ul>
                         </li><?php } ?>
+                        <li>
+                            <a href="<?php echo $HOME; ?>index.php/<?php echo $URL[1];?>?random">
+                                <i class="glyphicon glyphicon-th"></i> <span>Random</span>
+                            </a>
+                        </li>
+
                     </ul>
                 </section>
                 <!-- /.sidebar -->
@@ -68,11 +74,11 @@
                         <img src="<?php echo $HOME ?>img/thumbnail-light-300x300.png" class="img-circle" style="cursor:pointer" alt="Kodi Logo" onClick="sidebar()" />
                     </div>
                     <div class="pull-left" style="font-size: 20px; margin-top:-5px">
-                        <?php if (isset($page_previous) && $page_previous > 0) { ?><a href="?<?php echo $Nav_url."page=".$page_previous?>" > <i class="glyphicon glyphicon-chevron-left" ></i>previous</a><?php } ?>
+                        <?php if (isset($page_previous) && $page_previous > 0) { ?><a href="?<?php echo $Nav_url."&page=".$page_previous?>" > <i class="glyphicon glyphicon-chevron-left" ></i>previous</a><?php } ?>
                     </div>
                     
                     <div class="pull-right" style="font-size: 20px; margin-top:-5px">
-                        <?php if (isset($page_next) && $page_next > 0) { ?><a href="?<?php echo $Nav_url."page=".$page_next?>" >next <i class="glyphicon glyphicon-chevron-right" ></i></a> <?php } ?>
+                        <?php if (isset($page_next) && $page_next > 0) { ?><a href="?<?php echo $Nav_url."&page=".$page_next?>" >next <i class="glyphicon glyphicon-chevron-right" ></i></a> <?php } ?>
                     </div>
                 </section>
 
